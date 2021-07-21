@@ -1,0 +1,1 @@
+export const descriptionSnippet = (description: string): string => description.length > 60 ? `${description.slice(0, 60)}...` : description;

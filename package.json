@@ -13,6 +13,7 @@
     "@types/react": "^17.0.11",
     "@types/react-dom": "^17.0.7",
     "@types/styled-components": "^5.1.10",
+    "json2mq": "^0.2.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-query": "^3.17.2",
@@ -44,5 +45,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/json2mq": "^0.2.0"
   }
 }

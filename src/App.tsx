@@ -4,19 +4,42 @@ import { useQuery } from "react-query"
 import { LinearProgress,
   Grid,
   Drawer,
-  Badge 
+  Badge, 
+  AppBar,
+  Typography,
+  Box,
+  Button
 } from '@material-ui/core';
 import { AddShoppingCart } from "@material-ui/icons";
 import { Wrapper } from "./App.styles";
 import { CartItemType } from "./utils/types";
 import { getProducts } from "./utils/api";
 import Item from "./Item/Item";
-import { StyledButton } from "./App.styles";
 import Cart from "./Cart/Cart";
+import { makeStyles } from '@material-ui/core/styles';
+import { theme } from "./utils/theme";
+
+
+const useStyles = makeStyles({
+  root: {
+    margin: 0
+  },
+  button: {
+    color: "white"
+  },
+  drawer: {
+    width: "460px",
+    [theme.breakpoints.down('sm')]: {
+        width: "300px"
+    }
+  }
+})
 
 const App = () => {
+  const classes = useStyles();
   const [cartOpen, setCartOpen] = useState(false);
   const [cartItems, setCartItems] = useState([] as CartItemType[]);
+
   const { data, isLoading, error } = useQuery<CartItemType[]>(
     'products',
      getProducts
@@ -30,7 +53,7 @@ const App = () => {
   const handleAddToCart = (clickedItem: CartItemType) => {
     setCartItems(prev => {
       // Is the item already added in the cart
-      const isItemInCart = prev.find((item) => item.id == clickedItem.id);
+      const isItemInCart = prev.find((item) => item.id === clickedItem.id);
       
       if(isItemInCart) {
         return prev.map(item => (
@@ -63,28 +86,43 @@ const App = () => {
   if(error) return <div className="">Something were wrong</div>
 
   return (
-    <Wrapper>
-      <Drawer anchor="right" open={cartOpen} onClose={() => setCartOpen(false)}>
-        <Cart 
-          cartItems={cartItems} 
-          handleAddToCart={handleAddToCart}
-          handleRemoveFromCart={handleRemoveFromCart}
-          />
-      </Drawer>
-      <StyledButton onClick={() => setCartOpen(true)}>
-        <Badge badgeContent={getTotalItems(cartItems)} color="error">
-            <AddShoppingCart />
-        </Badge>
-      </StyledButton>
-      <Grid container spacing={5}>
-        { data?.map((item) => (
-          <Grid item key={item.id} xs={12} sm={4}>
-            <Item item={item} handleAddToCart={handleAddToCart} />
-          </Grid>
-        ))}
-      </Grid>
-    </Wrapper>
+    <>
+      <AppBar position="sticky">
+      <Box padding={2} display="flex" justifyContent="space-between" alignItems="center" >
+          <Typography variant="h6" className={""}>
+            react-typescript-cart
+          </Typography>
+          <Button className={classes.button} onClick={() => setCartOpen(true)}>
+            <Badge badgeContent={getTotalItems(cartItems)} color="error">
+                <AddShoppingCart />
+            </Badge>
+          </Button>
+        </Box>
+      </AppBar>
+      <Wrapper>
+        <Drawer className={classes.drawer} anchor="right" open={cartOpen} onClose={() => setCartOpen(false)}>
+          <Cart 
+            cartItems={cartItems} 
+            handleAddToCart={handleAddToCart}
+            handleRemoveFromCart={handleRemoveFromCart}
+            />
+        </Drawer>
+        <Grid container spacing={4} justify="center" >
+          { data?.map((item) => (
+            <Grid item key={item.id} xs={12} sm={6} md={4} lg={3} xl={2} >
+              <Item item={item} handleAddToCart={handleAddToCart} />
+            </Grid>
+          ))}
+        </Grid>
+      </Wrapper>
+    </>
   )
 }
+
+// xs, extra-small: 0px
+// sm, small: 600px
+// md, medium: 960px
+// lg, large: 1280px
+// xl, extra-large: 1920px
 
 export default App
