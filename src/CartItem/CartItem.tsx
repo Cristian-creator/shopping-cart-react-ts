@@ -1,4 +1,4 @@
-import { Button, makeStyles } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 import { CartItemType } from "../utils/types";
 import { Wrapper } from "./CartItem.styles";
 
@@ -8,17 +8,7 @@ type Props = {
     handleRemoveFromCart: (id: number) => void;
 }
 
-const useStyles = makeStyles({
-    root: {
-      maxWidth: 345,
-    },
-    media: {
-      height: 140,
-    },
-});
-
 const CartItem: React.FC<Props> = ({ item, handleAddToCart, handleRemoveFromCart }) => {
-    const classes = useStyles();
 
     return (
         <Wrapper>

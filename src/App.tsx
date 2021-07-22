@@ -40,19 +40,23 @@ const App = () => {
   const [cartOpen, setCartOpen] = useState(false);
   const [cartItems, setCartItems] = useState([] as CartItemType[]);
 
-  const { data, isLoading, error } = useQuery<CartItemType[]>(
+  const { data, isLoading, error } = useQuery(
     'products',
-     getProducts
+    getProducts,
+    { 
+      notifyOnChangeProps: ['data'],
+      refetchOnMount: false,
+      refetchOnWindowFocus: false,
+      refetchOnReconnect: false
+    }
   );
-
-  console.log(data);
 
   const getTotalItems = (items: CartItemType[]) => 
     items.reduce((ac: number, item) => ac + item.amount, 0);
 
   const handleAddToCart = (clickedItem: CartItemType) => {
     setCartItems(prev => {
-      // Is the item already added in the cart
+      // is the item already added in the cart
       const isItemInCart = prev.find((item) => item.id === clickedItem.id);
       
       if(isItemInCart) {
@@ -63,7 +67,7 @@ const App = () => {
         ))
       };
 
-      // First time the item is added
+      // first time the item is added
       return [...prev, { ...clickedItem, amount: 1 }];
     });
   };
@@ -118,11 +122,5 @@ const App = () => {
     </>
   )
 }
-
-// xs, extra-small: 0px
-// sm, small: 600px
-// md, medium: 960px
-// lg, large: 1280px
-// xl, extra-large: 1920px
 
 export default App

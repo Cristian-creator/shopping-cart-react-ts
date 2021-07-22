@@ -10,13 +10,6 @@ type Props = {
     handleAddToCart: (clickedItem: CartItemType) => void;
 }
 
-
-// xs, extra-small: 0px
-// sm, small: 600px
-// md, medium: 960px
-// lg, large: 1280px
-// xl, extra-large: 1920px
-
 const useStyles = makeStyles({
     root: {
         maxWidth: 345,
@@ -104,15 +97,5 @@ const Item: React.FC<Props> = ({ item, handleAddToCart }) => {
     </Card>
   );
 };
-// <Wrapper>
-    //    {/* <img src={item.image} alt={item.title} />  */}
-    //    <StyledHero myImage={item.image} />
-    //    <div className="">
-    //        <h3> {item.title} </h3>
-    //        <p> {item.description} </p>
-    //        <h3> ${item.price} </h3>
-    //    </div>
-    //    <Button onClick={() => handleAddToCart(item)}> Add to cart </Button>
-    // </Wrapper>
 
 export default Item;
