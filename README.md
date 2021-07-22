@@ -1,4 +1,4 @@
-# Shopping Cart
+# Responsive shopping cart
 Built with:
 - Typescript
 - Material UI
